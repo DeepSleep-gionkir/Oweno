@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>간단 채팅방</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- 비밀번호 화면 -->
+    <section id="password-screen" class="screen">
+      <h2>채팅방 입장</h2>
+      <p class="desc">비밀번호를 입력하세요.</p>
+      <input
+        type="password"
+        id="password-input"
+        placeholder="비밀번호"
+        autofocus
+      />
+      <button id="password-btn">입장</button>
+      <p id="password-error" class="error"></p>
+    </section>
+
+    <!-- 닉네임 설정 화면 -->
+    <section id="nickname-screen" class="screen hidden">
+      <h2>닉네임 설정</h2>
+      <p class="desc">채팅방에서 표시될 이름을 정하세요.</p>
+      <input
+        type="text"
+        id="nickname-input"
+        placeholder="예: 꿀잠"
+      />
+      <button id="nickname-btn">채팅 시작</button>
+      <p id="nickname-error" class="error"></p>
+    </section>
+
+    <!-- 채팅 화면 -->
+    <section id="chat-screen" class="screen hidden">
+      <header class="chat-header">
+        <div>
+          <h2>간단 채팅방</h2>
+          <p id="current-nickname" class="nickname-label"></p>
+        </div>
+      </header>
+
+      <div id="messages" class="messages"></div>
+
+      <form id="message-form" class="message-form" autocomplete="off">
+        <input
+          type="text"
+          id="message-input"
+          placeholder="메시지를 입력하세요..."
+        />
+        <button type="submit">전송</button>
+      </form>
+    </section>
+
+  </div>
+
+  <!-- Socket.IO 클라이언트 -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
