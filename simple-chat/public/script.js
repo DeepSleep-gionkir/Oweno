@@ -1,4 +1,5 @@
 const CORRECT_PASSWORD = '바나나사와';
+const PORT = process.env.PORT || 3000;
 
 const passwordScreen = document.getElementById('password-screen');
 const nicknameScreen = document.getElementById('nickname-screen');
