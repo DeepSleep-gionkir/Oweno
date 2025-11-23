@@ -8,7 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const LOG_FILE = path.join(__dirname, 'chat-log.json');
 
 // 정적 파일 제공 (public 폴더)
