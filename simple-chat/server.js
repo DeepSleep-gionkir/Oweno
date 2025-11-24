@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -8,10 +9,11 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-const PORT = process.env.PORT || 3000;
+// Render가 넣어주는 PORT 환경변수 사용 (없으면 3000)
+const PORT = process.env.PORT || 3000; // 
 const LOG_FILE = path.join(__dirname, 'chat-log.json');
 
-// 정적 파일 제공 (public 폴더)
+// 정적 파일 (public 폴더) 서빙
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 기존 채팅 기록 로드
@@ -38,7 +40,7 @@ function saveMessages(messages) {
   });
 }
 
-let messages = loadMessages(); // 메모리에 올려두고 사용
+let messages = loadMessages();
 
 io.on('connection', (socket) => {
   console.log('user connected:', socket.id);
@@ -51,7 +53,7 @@ io.on('connection', (socket) => {
     const name = (data.name || '익명').toString().slice(0, 20);
     const text = (data.text || '').toString().slice(0, 500);
 
-    if (!text.trim()) return; // 빈 메시지는 무시
+    if (!text.trim()) return;
 
     const msg = {
       id: Date.now() + '-' + Math.random().toString(36).slice(2),
@@ -61,12 +63,11 @@ io.on('connection', (socket) => {
     };
 
     messages.push(msg);
-    // 필요하면 메시지 개수 제한도 가능 (예: 최근 1000개만 유지)
+    // 필요한 경우 최근 N개만 유지
     // if (messages.length > 1000) messages = messages.slice(-1000);
 
     saveMessages(messages);
 
-    // 모든 클라이언트에게 브로드캐스트
     io.emit('chatMessage', msg);
   });
 
@@ -75,6 +76,7 @@ io.on('connection', (socket) => {
   });
 });
 
+// Render 환경에서도 잘 동작하도록 PORT 사용
 server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
